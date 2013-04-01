@@ -1,0 +1,44 @@
+﻿Ita: Um analista de sistemas projetou a senha de um sistema com apenas 3 digitos.
+Ele com receio que a senha pudesse ser "Hackeada" utilizou um sistema linear com os seguintes valores:
+
+2x+5y+3z=20
+5x+3y-10z=-39
+x+y+z=5
+
+Um mês depois da senha instalada o analista faleceu. E agora! Qual a senha do sistema?
+
+x+4/2y-2z=3-y
+2x-y+z=12
+4x+3y-5z=6
+
+x+2y-z+4s=40
+-2x-2y+z+5s=0
+3x-2y+2z-3s=-12
+x+y+z-s=12
+
+x+4/2y-2z=3-y
+2x-y+z=12
+4x+3y-5z=6
+
+x+2y-z+4s=40
+-2x-2y+z+5s=0
+3x-2y+2z-3s=-12
+x+y+z-s=12
+
+x+4/2y-2z=3-y
+2x-y+z=12
+4x+3y-5z=6
+
+x+2y-z+4s=40
+-2x-2y+z+5s=0
+3x-2y+2z-3s=-12
+x+y+z-s=12
+
+x+4/2y-2z=3-y
+2x-y+z=12
+4x+3y-5z=6
+
+x+2y-z+4s=40
+-2x-2y+z+5s=0
+3x-2y+2z-3s=-12
+x+y+z-s=12

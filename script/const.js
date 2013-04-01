@@ -1,0 +1,1 @@
+const EXPRESSAO_INVALIDA = '<span class="invalida">[EQUAÇÃO INVÁLIDA]</span>';

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+<title>Super Math Fan</title>
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.0/jquery.mobile.structure-1.3.0.min.css" />
+<link rel="stylesheet" href="themes/mathLabs.min.css">
+<link rel="stylesheet" href="style/style.css">
+</head>
+<body>
+
+<div data-role="page" id="home" class="page">
+    <div data-role="header">
+        <h1>Super Math Fan</h1>
+    </div>
+
+    <div data-role="content">
+        <ul data-role="listview" data-inset="false" id="menu">
+            <li data-role="list-divider">Menu</li>
+            <li><a href="#system">Ver sistemas<span class="ui-li-count">0</span></a></li>
+            <li><a href="#add-sistem">Adicionar Sistemas</a></li>
+        </ul>
+    </div>
+
+</div>
+
+<div data-role="page" id="system" class="page">
+    <div data-role="header" data-position="fixed" id="system-header">
+        <a href="#home" data-role="button" data-icon="back" data-iconpos="notext" data-inline="true">Back</a>
+        <h1>Super Math Fan</h1>
+    </div>
+
+    <div data-role="content" id="content"></div>
+
+</div>
+
+<div data-role="page" id="add-sistem" class="page">
+    <div data-role="header" id="add-system-header">
+        <a href="#home" data-role="button" data-icon="back" data-iconpos="notext" data-inline="true">Back</a>
+        <h1>Super Math Fan</h1>
+    </div>
+
+    <div data-role="content" id="content">
+        <textarea id="txtarea">2x+3y-z=11
+-3x+y-5z=-27
+x+y-10z=-44</textarea>
+        <a href="#system" data-role="button" id="processar">Adicionar</a>
+    </div>
+
+</div>
+
+<script src="script/jquery-1.9.1.min.js"></script>
+<script src="script/jquery.mobile-1.3.0.min.js"></script>
+<script src="script/bootstrap.min.js"></script>
+<script src="script/const.js"></script>
+<script src="script/Array.js"></script>
+<script src="script/LinearSystem.js"></script>
+<script src="script/Equation.js"></script>
+<script src="script/Term.js"></script>
+<script src="getLinearSystems.js"></script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Montador de quadrados mágicos</title>
+<style type="text/css">
+table { border-collapse: collapse; }
+td { border: 1px solid #000; height: 25px; width:25px; text-align: center; }
+</style>
+</head>
+<body>
+<!-- <h1>Montador de quarados mágicos</h1> -->
+<script>
+(function () {
+    var matriz  = [];
+    var tamanho = prompt("Qual o tamanho?");
+    var p_i     = 0;
+    var p_j     = Math.floor(tamanho / 2);
+    var limite  = Math.pow(tamanho,2);
+
+    for (i = 0; i < tamanho; i++) {
+        matriz.push([]);
+        for (j = 0; j < tamanho; j++) {
+            matriz[i].push(null);
+        }
+    }
+
+    for (num = 1; num <= limite; num++) {
+        try {
+            matriz[p_i][p_j] = num;
+        } catch (e) {
+            console.log(p_i + 'x' + p_j);
+            break;
+        }
+
+        p_i--;
+        p_j++;
+
+        if (typeof matriz[p_i] == 'undefined' && p_j >= tamanho) {
+            p_i+=2;
+            p_j--;
+
+        }
+
+        if (typeof matriz[p_i] == 'undefined') {
+            p_i = tamanho - 1;
+        }
+
+        if (typeof matriz[p_i][p_j] == 'undefined') {
+            p_j = 0;
+        }
+
+        if (matriz[p_i][p_j] != null) {
+            p_i+=2;
+            p_j--;
+        }
+    }
+
+    var html = '<table>';
+    for (i = 0; i < tamanho; i++) {
+        html += '<tr>';
+        for (j = 0; j < tamanho; j++) {
+            html += '<td>' + matriz[i][j] + '</td>';
+        }
+        html += '</tr>';
+    }
+    html += '</table>';
+
+    document.body.innerHTML += html;
+
+    console.log(matriz);
+})();
+</script>
+</body>
+</html>
