@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>QUnit Test Suite</title>
+    <link rel="stylesheet" href="../qunit/qunit.css">
+</head>
+<body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture">test markup</div>
+    <script src="../qunit/qunit.js"></script>
+    <script src="../script/const.js"></script>
+    <script src="../script/Array.js"></script>
+    <script src="../script/Term.js"></script>
+    <script src="../script/Equation.js"></script>
+    <script src="../script/LinearSystem.js"></script>
+<script>
+var t = new Term();
+var e = new Equation();
+var s = new LinearSystem();
+
+test("Testes com termos", function() {
+    t.setTerm('1');
+    equal(t.amount,1);
+    equal(t.variable,'');
+
+    t.setTerm('-1');
+    equal(t.amount,-1);
+    equal(t.variable,'');
+
+    t.setTerm('2x');
+    equal(t.amount,2);
+    equal(t.variable,'x');
+
+    t.setTerm('-2x');
+    equal(t.amount,-2);
+    equal(t.variable,'x');
+
+    t.setTerm('x');
+    equal(t.amount,1);
+    equal(t.variable,'x');
+
+    t.setTerm('-x');
+    equal(t.amount,-1);
+    equal(t.variable,'x');
+
+    t.setTerm('ax');
+    equal(t.amount,'a');
+    equal(t.variable,'x');
+
+    t.setTerm('-ax');
+    equal(t.amount,'-a');
+    equal(t.variable,'x');
+
+    t.setTerm('1/4');
+    equal(t.amount,0.25);
+    equal(t.variable,'');
+
+    t.setTerm('1/4x');
+    equal(t.amount,0.25);
+    equal(t.variable,'x');
+
+    t.setTerm('8/4');
+    equal(t.amount,2);
+    equal(t.variable,'');
+
+    t.setTerm('0.25');
+    equal(t.amount,.25);
+    equal(t.variable,'');
+
+});
+
+test("Testes com Equações", function() {
+    e.setEquation('x=1');
+    deepEqual(e.left,[new Term('x')]);
+    deepEqual(e.right,[new Term('1')]);
+    deepEqual(e.variables,{x:1});
+    deepEqual(e.term,1);
+
+    e.setEquation('2x=1');
+    deepEqual(e.left,[new Term('2x')]);
+    deepEqual(e.right,[new Term('1')]);
+    deepEqual(e.variables,{x:2});
+    deepEqual(e.term,1);
+
+    e.setEquation('2x-y=1');
+    deepEqual(e.left,[new Term('2x'),new Term('-y')]);
+    deepEqual(e.right,[new Term('1')]);
+    deepEqual(e.variables,{x:2,y:-1});
+    deepEqual(e.term,1);
+
+    e.setEquation('2x-y=-x+3');
+    deepEqual(e.left,[new Term('2x'),new Term('-y'),new Term('+x')]);
+    deepEqual(e.right,[new Term('+3')]);
+    deepEqual(e.variables,{x:3,y:-1});
+    deepEqual(e.term,3);
+    
+    e.setEquation('2x-y=-x');
+    deepEqual(e.left,[new Term('2x'),new Term('-y'),new Term('+x')], 'Sem numeros (esquerda)');
+    deepEqual(e.right,[new Term(0)], 'Sem numeros (direita)');
+    deepEqual(e.variables,{x:3,y:-1});
+    deepEqual(e.term,0);
+
+    e.setEquation('2x-4=-x+3');
+    deepEqual(e.left,[new Term('2x'),new Term('+x')], '2x-4=-x+3 (esquerda)');
+    deepEqual(e.right,[new Term('+4'),new Term('+3')], '2x-4=-x+3 (direita)');
+    deepEqual(e.variables,{x:3}, '2x-4=-x+3 (variaveis)');
+    deepEqual(e.term,7);
+
+    e.setEquation('1/2x-4/1=-x+3');
+    deepEqual(e.left,[new Term('0.5x'),new Term('+x')], '1/2x-4/1=-x+3 (esquerda)');
+    deepEqual(e.right,[new Term('+4'),new Term('+3')], '1/2x-4/1=-x+3 (direita)');
+    deepEqual(e.variables,{x:1.5}, '1/2x-4/1=-x+3 (variaveis)');
+    deepEqual(e.term,7);
+
+});
+
+test("Testes com Sistemas lineares", function() {
+    s.setLinearSystem('x+3y-2z=3\n2x-y+z=12\n4x+3y-5z=6');
+    deepEqual(s.matrix(), [[1,3,-2,3],
+                           [2,-1,1,12],
+                           [4,3,-5,6]]);
+
+    deepEqual(s.matrix(0), [[3,3,-2],
+                            [12,-1,1],
+                            [6,3,-5]], "indice 0");
+
+    deepEqual(s.matrix(1), [[1,3,-2],
+                            [2,12,1],
+                            [4,6,-5]], 'Indice 1');
+
+    deepEqual(s.matrix(2), [[1,3,3],
+                            [2,-1,12],
+                            [4,3,6]] , "indice 2");
+
+    deepEqual(s.matrix(3), [[1,3,-2],
+                            [2,-1,1],
+                            [4,3,-5]], "restantes 0");
+    s.cramer();
+    deepEqual(s.variables, {x:5,y:2,z:4}, 'Resultado');
+
+    s.setLinearSystem('2x-y=1\n2x-y=-x+3');
+    deepEqual(s.matrix(), [[2,-1,1],
+                           [3,-1,3]]);
+    deepEqual(s.variables, {x:0,y:0});
+
+    deepEqual(s.matrix(0), [[1,-1],
+                            [3,-1]], "restantes");
+
+    deepEqual(s.matrix(1), [[2,1],
+                            [3,3]], "restantes 2");
+    s.cramer();
+    //deepEqual(s.variables, {x:5,y:2}, 'Resultado');
+
+    deepEqual(s.matrix(0), [[1,-1],
+                            [3,-1]], "indice 0");
+
+    deepEqual(s.matrix(1), [[2,1],
+                            [3,3]], 'Indice 1');
+
+    deepEqual(s.matrix(2), [[2,-1],
+                            [3,-1]] , "indice 2");
+
+    s.setLinearSystem('2x+5y+3t=20\n5x+3y-10t=-39\nx+y+t=5');
+    deepEqual(s.matrix(), [[2,5,3,20],
+                           [5,3,-10,-39],
+                           [1,1,1,5]]);
+    deepEqual(s.variables, {x:0,y:0,t:0});
+
+    s.setLinearSystem('2x+5y=20\n5x+3y-10t=-39\nx+y+t=5');
+    deepEqual(s.matrix(), [[2,5,1,20],
+                           [5,3,-10,-39],
+                           [1,1,1,5]]);
+    deepEqual(s.variables, {x:0,y:0,t:0});
+
+    s.setLinearSystem('x+3y-2z=3\r\n2x-y+z=12\n4x+3y-5z=6');
+    deepEqual(s.variables, {z:0, x:0,y:0});
+
+});
+
+test("Testes com Matrizes", function() {
+    deepEqual([].isSquare(), false);
+    deepEqual([1,2].isSquare(), false);
+    deepEqual([[1]].isSquare(), false, '1x1 não é possivel aplicar cramer');
+    deepEqual([[1,2],[1,2]].isSquare(), true);
+    deepEqual([[1,2,3,4],[1,2,3,4],[1,2,4],[1,2,3,4]].isSquare(), false);
+
+    deepEqual([[1,3,-2],[2,-1,1],[4,3,-5]].axis(), [-8,-3,30,5,12,-12]);
+    deepEqual([[3,3,-2],[12,-1,1],[6,3,-5]].axis(), [-12,-9,180,15,18,-72]);
+
+    
+    deepEqual([-8,-3,30,5,12,-12].sum(), 24);
+    deepEqual([-12,-9,180,15,18,-72].sum(), 120);
+
+});
+</script>
+</body>
+</html>
