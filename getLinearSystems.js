@@ -46,6 +46,13 @@ function getLinearSystems (data) {
             var solucao  = 's={';
             response     += toText(output[i].linear_system) + '<br><br>';
             response     += output[i].matrix(-1).table() + '<br>det = ' + toText(output[i].matrix(-1).axis()) + '=' + output[i].matrix(-1).axis().sum() + '<br><br>';
+
+            if (output[i].matrix(-1).axis().sum() == 0) {
+                response += 'Sistema impossivel<br><br><br><hr>';
+                output[i] = response;
+                continue;
+            }
+
             for (var j in output[i].variables) {
                 response += output[i].matrix(index).table() + '<br>det ' + j;
                 response += '=' + toText(output[i].matrix(index).axis()) + '=';
@@ -110,7 +117,7 @@ function clickHandler (evt) {
 
 */
 function clickTextHandler () {
-    $('#menu .ui-li-count').text(parseInt($('#menu .ui-li-count').text()) + 1);
+    //$('#menu .ui-li-count').text(parseInt($('#menu .ui-li-count').text()) + 1);
     var result = $("#txtarea").val();
     $('#content').html($('#content').html() + getLinearSystems(result).join('\n').replace(/\n/g,'<br>') + '<br>');
 }
